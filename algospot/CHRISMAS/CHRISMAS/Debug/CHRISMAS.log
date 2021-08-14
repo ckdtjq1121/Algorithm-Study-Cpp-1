@@ -1,0 +1,4 @@
+﻿  소스.cpp
+C:\Users\happy82kong\source\repos\CHRISMAS\CHRISMAS\소스.cpp(13,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+C:\Users\happy82kong\source\repos\CHRISMAS\CHRISMAS\소스.cpp(32,20): warning C4018: '<': signed 또는 unsigned가 일치하지 않습니다.
+  CHRISMAS.vcxproj -> C:\Users\happy82kong\source\repos\CHRISMAS\Debug\CHRISMAS.exe

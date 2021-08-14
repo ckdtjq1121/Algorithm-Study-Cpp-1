@@ -56,3 +56,11 @@ Release
 *.vbproj.user
 ipch
 *sdf
+
+.vs
+Debug
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+

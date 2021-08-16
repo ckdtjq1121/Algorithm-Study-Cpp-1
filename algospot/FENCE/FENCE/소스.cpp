@@ -111,15 +111,15 @@ int solveToStack()
 			height = fence[remaining.top()];
 			remaining.pop();
 
+			right = i;
 			if (!remaining.empty())
 				left = remaining.top();
 			else
 				left = -1;
 
-			right = i;
 
 			width = right - left - 1;
-			cout << "h : " << height << " w : " << width << "\n";
+			//cout << "h : " << height << " w : " << width << "\n";  //  넓이를 구할 때 마다 height과 width를 볼 수 있는 디버깅 코드
 			ret = max(ret, height * width);
 		}
 
@@ -127,6 +127,8 @@ int solveToStack()
 		remaining.push(i);
 	}
 
+	while (!remaining.empty())
+		remaining.pop();
 	
 	return ret;
 }
@@ -147,9 +149,9 @@ int main()
 		}
 
 		//cout << solveToBruteForce() << "\n"; // n^n 이지만 아슬아슬하게 통과
-		cout << solveToDivideAndConqure() << "\n"; // n log n 이어야 하는대 시간초과
+		//cout << solveToDivideAndConqure() << "\n"; // n log n 이어야 하는대 시간초과
 		//cout << solveToSegmentTree() << "\n"; // log n ^ 2
-		//cout << solveToStack() << "\n"; // 오답
+		cout << solveToStack() << "\n"; // n
 
 		fence.clear(); // vector를 전역변수로 두고 쓸시 다 사용 후 초기화 하는 습관을 가지자
 	}

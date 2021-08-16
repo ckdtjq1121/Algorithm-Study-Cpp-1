@@ -1,78 +1,59 @@
 //board의 흰색 부분을 L자 모양의 블록으로 덮는 경우의 수를 구하는 알고리즘
 #include<iostream>
 #include<vector>
-#include<memory.h>
+
 using namespace std;
-char board[20][20];
-int height, width;
-bool isFoolBoard(char** board)
+
+
+
+const int coverType[4][3][2] = {
+	{{0,0},{1,0},{0,1}},
+	{{0,0},{0,1},{1,1}},
+	{{0,0},{1,0},{1,1}},
+	{{0,0},{1,0},{1,-1}}
+};
+
+bool set(vector<vector<int>>& board, int y, int x, int type, int delta)
 {
-	for (int i = 0; i < height; i++)
+	bool ok = true;
+	for (int i = 0; i < 3; i++)
 	{
-		for (int j = 0; j < width; j++)
+		const int ny = y + coverType[type][i][0];
+		const int nx = x + coverType[type][i][1];
+		if (ny < 0 || ny >= board.size() || nx < 0 || nx >= board.size())
+			ok = false;
+		else if ((board[ny][nx] += delta > 1))
+			ok = false;
+	}
+	return ok;
+}
+
+int waysToCoverBoard(vector<vector<int>>& board)
+{
+	int y = -1, x = -1;
+	for (int i = 0; i < board.size(); i++)
+	{
+		for (int j = 0; j < board[i].size(); j++)
 		{
-			if (board[i][j] == '.')
-				return false;
-		}
-	}
-	return true;
-}
-bool canAddBlock(char** board, int way) // 4가지 방법이 있음
-{
-	if (way == 1)
-	{
-
-	}
-	else if (way == 2)
-	{
-
-
-	}
-	else if (way == 3)
-	{
-
-	}
-	else if (way == 4)
-	{
-
-	}
-	else //  잘못된 경우
-	{
-		
-	}
-}
-void addBlock(char** board, int y, int x, int way)
-{
-
-}
-void removeBlock(char** board, int y, int x, int way)
-{
-
-}
-
-int waysToCoverBoard(char** board)
-{
-	if (isFoolBoard(board))
-		return 1;
-
-	int ret = 0;
-	for (int i = 0; i < height; i++)
-	{
-		for (int j = 0; j < width; j++)
-		{
-			if (board[i][j] == '.')
+			if (board[i][j] == 0)
 			{
-				for (int way = 1; way <= 4; way++)
-				{
-					if (canAddBlock(board, way))
-					{
-						addBlock(board, i, j, way);
-						ret += waysToCoverBoard(board);
-						removeBlock(board, i, j, way);
-					}
-				}
+				y = i;
+				x = j;
+				break;
 			}
 		}
+		if (y != -1)
+			break;
+	}
+
+	if (y == -1) return 1;
+	int ret = 0;
+	for (int type = 0; type < 4; type++)
+	{
+		if (set(board, y, x, type, 1))
+			ret += waysToCoverBoard(board);
+
+		set(board, y, x, type, -1);
 	}
 	return ret;
 }
@@ -82,19 +63,33 @@ int main()
 	cin >> testCase;
 	for (int i = 0; i < testCase; i++)
 	{
-		
+		vector<vector<int>> board;
+		int height, width;
 		cin >> height >> width;
 		
-		memset(board, 0, sizeof(board));
+		char tmp;
+		for (int j = 0; j < height; j++)
+		{
+			vector<int> h;
+			for (int k = 0; k < width; k++)
+			{
+				cin >> tmp;
+				h.push_back((tmp == '.') ? 0 : 1);
+			}
+			board.push_back(h);
+		}
+
 		for (int j = 0; j < height; j++)
 		{
 			for (int k = 0; k < width; k++)
 			{
-				cin >> board[j][k];
+				cout << board[j][k] << " ";
 			}
+			cout << "\n";
 		}
+		//cout << waysToCoverBoard(board) << "\n";
 	}
-
-	cout << waysToCoverBoard(board) << "\n";
+	cout << "\n\n";
+	
 	return 0;
 }

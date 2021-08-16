@@ -20,7 +20,6 @@ int hexDecToDec(string hexDec)
 	int digit = 1;
 	for (int i = hexDec.size() - 1; i >= 0; i--)
 	{
-		// cpp 에서 string char char* const char 등등에 대해 자세히 공부하기 책으로
 		
 		for (int j = 0; j < 16; j++)
 		{

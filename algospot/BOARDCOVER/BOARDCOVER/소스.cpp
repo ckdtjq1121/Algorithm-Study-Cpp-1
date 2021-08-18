@@ -1,11 +1,12 @@
 //board의 흰색 부분을 L자 모양의 블록으로 덮는 경우의 수를 구하는 알고리즘
 #include<iostream>
-#include<vector>
+
 
 using namespace std;
 
 
-
+int height, width;
+int arrBoard[20][20];
 const int coverType[4][3][2] = {
 	{{0,0},{1,0},{0,1}},
 	{{0,0},{0,1},{1,1}},
@@ -13,32 +14,34 @@ const int coverType[4][3][2] = {
 	{{0,0},{1,0},{1,-1}}
 };
 
-bool set(vector<vector<int>>& board, int y, int x, int type, int delta)
+bool set(int y, int x, int type, int delta)
 {
 	bool ok = true;
 	for (int i = 0; i < 3; i++)
 	{
 		const int ny = y + coverType[type][i][0];
 		const int nx = x + coverType[type][i][1];
-		if (ny < 0 || ny >= board.size() || nx < 0 || nx >= board.size())
+		if (ny < 0 || ny >= height || nx < 0 || nx >= width) // ny, nx가 배열 밖으로 나가면 X
 			ok = false;
-		else if ((board[ny][nx] += delta > 1))
+		// (arrBoard[ny][nx] += delta) > 1 괄호를 치지 않으면 값이 계산이 되지 않아 무한 재귀를 타게 됨
+		else if ((arrBoard[ny][nx] += delta) > 1)	// arrBoard[ny][nx]의 값이 이미 1(채워진부분)이라면 X
 			ok = false;
 	}
 	return ok;
 }
 
-int waysToCoverBoard(vector<vector<int>>& board)
+int waysToCoverBoard()
 {
+	// 아직도 0인 x, y를 찾는다.
 	int y = -1, x = -1;
-	for (int i = 0; i < board.size(); i++)
+	for (int h = 0; h < height; h++)
 	{
-		for (int j = 0; j < board[i].size(); j++)
+		for (int w = 0; w < width; w++)
 		{
-			if (board[i][j] == 0)
+			if (arrBoard[h][w] == 0)
 			{
-				y = i;
-				x = j;
+				y = h;
+				x = w;
 				break;
 			}
 		}
@@ -46,14 +49,16 @@ int waysToCoverBoard(vector<vector<int>>& board)
 			break;
 	}
 
-	if (y == -1) return 1;
+	if (y == -1) return 1;	// arrBoard[i][j] == 0인 값이 없다 즉 모두 1로 채워졌다. 한가지 방법을 찾았다.
+
+	// 4가지 방법을 모두 재귀로 해봄
 	int ret = 0;
 	for (int type = 0; type < 4; type++)
 	{
-		if (set(board, y, x, type, 1))
-			ret += waysToCoverBoard(board);
+		if (set(y, x, type, 1))
+			ret += waysToCoverBoard();
 
-		set(board, y, x, type, -1);
+		set(y, x, type, -1);
 	}
 	return ret;
 }
@@ -63,33 +68,20 @@ int main()
 	cin >> testCase;
 	for (int i = 0; i < testCase; i++)
 	{
-		vector<vector<int>> board;
-		int height, width;
 		cin >> height >> width;
-		
 		char tmp;
-		for (int j = 0; j < height; j++)
-		{
-			vector<int> h;
-			for (int k = 0; k < width; k++)
+		for (int h = 0; h < height; h++)
+		{		
+			for (int w = 0; w < width; w++)
 			{
 				cin >> tmp;
-				h.push_back((tmp == '.') ? 0 : 1);
+				arrBoard[h][w] = (tmp == '.') ? 0 : 1;
 			}
-			board.push_back(h);
 		}
 
-		for (int j = 0; j < height; j++)
-		{
-			for (int k = 0; k < width; k++)
-			{
-				cout << board[j][k] << " ";
-			}
-			cout << "\n";
-		}
-		//cout << waysToCoverBoard(board) << "\n";
+		cout << waysToCoverBoard() << "\n";
 	}
-	cout << "\n\n";
-	
+
+
 	return 0;
 }

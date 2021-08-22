@@ -93,7 +93,7 @@ int main()
 
 		// kmp fuction
 		int currentIndex = size;
-		int tmpIndex;
+		
 		int ret = 0;
 		vector<int> tickList;
 		for (int j = 1; j < n + 1; j++)
@@ -107,8 +107,7 @@ int main()
 				{
 					if (currentIndex - tickList[k] > 0 && mintick > currentIndex - tickList[k])
 					{
-						mintick = currentIndex - tickList[k];
-						tmpIndex = tickList[k];
+						mintick = currentIndex - tickList[k];	
 					}
 				}
 				else
@@ -116,12 +115,10 @@ int main()
 					if (tickList[k] - currentIndex > 0 && mintick > tickList[k] - currentIndex)
 					{
 						mintick = tickList[k] - currentIndex;
-						tmpIndex = tickList[k];
 					}
 				}
 			}
 			ret += mintick;
-			//currentIndex = tmpIndex;
 		}
 
 		cout << ret << "\n";

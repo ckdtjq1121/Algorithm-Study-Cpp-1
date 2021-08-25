@@ -2,7 +2,11 @@
 #include <vector>
 #include <memory.h>
 using namespace std;
+
 bool dp[101][101];  // dp cashe - 간 적이 있는지 없는지를 표시할 수 있다.
+
+bool dp[101][101];  // dp cashe
+
 int grid[101][101]; // grid gameboard
 int n;
 bool canReachPoint(int y, int x)

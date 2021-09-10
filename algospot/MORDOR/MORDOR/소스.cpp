@@ -48,14 +48,14 @@ int main()
 		for (int i = 1; i <= n; i++)
 			cin >> sign[i];
 
-		init(1, n, 1);
+		init(1, n, 1);	// make segment tree
 
 		for (int i = 0; i < q; i++)
 		{
 			int a, b;
 			cin >> a >> b;
 
-			pair<int, int> ans = query(a+1, b+1, 1, n, 1);
+			pair<int, int> ans = query(a+1, b+1, 1, n, 1); // query [a+1, b+1]
 
 			cout << ans.second - ans.first << endl;	
 		}

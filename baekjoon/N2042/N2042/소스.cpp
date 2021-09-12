@@ -4,47 +4,45 @@ using namespace std;
 typedef long long ll;
 const int MAX = 1000001;
 ll arr[MAX];
-ll* psum;
+ll tree[MAX * 4];
 
-ll init(int left, int right, int node)
+ll init(int node, int start, int end)
 {
-	if (left == right)
-		return psum[node] = arr[left];
+	if (start == end)	
+		return tree[node] = arr[start];
 
-	int mid = (left + right) / 2;
-	return psum[node] = init(left, mid, 2 * node) + init(mid + 1, right, 2 * node + 1);
+	int mid = (start + end) / 2;
+	return tree[node] = 
+init(2 * node, start, mid) + init(2 * node + 1, mid + 1, end);
 }
 
-// n번째 값을 after로 update 하기
-void update(int left, int right, int node, int n, ll diff)
+// idx번째 값을 value 로 update
+void update(int node, int start, int end, int idx, ll diff)
 {
-	if (n < left || right < n)
+	if (idx < start || end < idx)	// 범위 밖 update X
 		return;
 
-	psum[node] += diff;
+	tree[node] += diff;
 
-	if (left != right)
-	{
-		int mid = (left + right) / 2;
-		update(left, mid, 2 * node, n, diff);
-		update(mid + 1, right, 2 * node + 1, n, diff);
-	}
+	if (start == end)
+		return;
+
+	int mid = (start + end) / 2;
+	update(2 * node, start, mid, idx, diff);
+	update(2 * node + 1, mid + 1, end, idx, diff);
 }
 
-// left , right 사이에 대해서 start, end의 구간합 구하기 -- Sum[start, end]
-ll query(int left, int right, int node, int start, int end)
+// left, right 사이 idx의 구간 합 구하기
+ll query(int node, int start, int end, int left, int right)
 {
-	if (end < left || right < start)
+	if (end < left || right < start)	// 범위 밖 0
 		return 0;
 
-	if (start <= left && right <= end)
-	{
-		//cout << start << " " << end << "   " << left << " " << right << "   " << psum[node] << endl;
-		return psum[node];
-	}
+	if (left <= start && end <= right)	// left, right 사이의 구간
+		return tree[node];
 
-	int mid = (left + right) / 2;
-	return query(left, mid, 2 * node, start, end) + query(mid + 1, right, 2 * node + 1, start, end);
+	int mid = (start + end) / 2;
+	return query(2 * node, start, mid, left, right) + query(2 * node + 1, mid + 1, end, left, right);
 }
 
 int main()
@@ -53,31 +51,27 @@ int main()
 
 	int n, m, k;
 	cin >> n >> m >> k;
-	int height = ceil(log2(n));
-	psum = new ll[1 << (height + 1)];
+
 	for (int i = 1; i <= n; i++)
-	{
 		cin >> arr[i];
-	}
 
-	init(1, n, 1);
+	init(1, 1, n);
 
+	int a, b;
+	ll c;
 	for (int i = 0; i < m + k; i++)
 	{
-		int a, b;
-		ll c;
 		cin >> a >> b >> c;
-		if (a == 1)
+
+		if (a == 1)		// init 뿐만 아니라 diff를 구할때 arr에 접근을 하므로 update시 arr 값을 변경 해줘야 한다................
 		{
-			int index = b;
-			ll value = c;
-			ll diff = value - arr[index];
-			update(1, n, 1, index, diff);
+			ll diff = c - arr[b];
+			arr[b] = c;
+			update(1, 1, n, b, diff);
 		}
 		else if (a == 2)
-		{
-			cout << query(1, n, 1, b, c) << endl;
-		}
+			cout << query(1, 1, n, b, c) << "\n";
 	}
+	return 0;
 }
 

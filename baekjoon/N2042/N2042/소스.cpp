@@ -4,7 +4,7 @@ using namespace std;
 typedef long long ll;
 const int MAX = 1000001;
 ll arr[MAX];
-ll tree[MAX * 4];
+ll* tree;
 
 ll init(int node, int start, int end)
 {
@@ -51,6 +51,10 @@ int main()
 
 	int n, m, k;
 	cin >> n >> m >> k;
+
+	// segment tree or binary tree making
+	int height = ceil(log2(n));
+	tree = new long long[1 << (height + 1)];
 
 	for (int i = 1; i <= n; i++)
 		cin >> arr[i];

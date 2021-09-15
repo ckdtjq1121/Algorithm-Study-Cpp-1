@@ -8,8 +8,8 @@ int n, q;
 vector<queue<int> > tree(MAX); // input data tree
 vector<int> depth(MAX);	// depth of node
 vector<int> preorder;	// preorder of tree
-vector<int> lcaTree(MAX * 8);// [left, right] segment tree of lca(minValue)
-vector<int> maxTree(MAX * 8);// [left, right] segment tree that max Num of node
+vector<int> lcaTree(MAX * 8, MAX);// [left, right] segment tree of lca(minValue)
+vector<int> maxTree(MAX * 8, 0);// [left, right] segment tree that max Num of node
 
 void getDepth()
 {
@@ -70,8 +70,9 @@ void init(int node, int start, int end)
 // return index that location of value
 int findIndex(int node, int start, int end, int value)
 {
-	if (maxTree[node] < value || lcaTree[start] > value)
-		return -1;
+	//cout << start << " " << end << "   " << preorder[start] << " " << maxTree[node] << " " << "\n";
+	if (maxTree[node] < value || preorder[start] > value)
+		return 2 * n;
 
 	if (preorder[start] == value)
 		return start;
@@ -80,7 +81,7 @@ int findIndex(int node, int start, int end, int value)
 	int left = findIndex(2 * node, start, mid, value);
 	int right = findIndex(2 * node + 1, mid + 1, end, value);
 
-	return max(left, right);
+	return min(left, right);
 }
 // lca(left, right)
 int queryLCA(int node, int start, int end, int left, int right)
@@ -90,6 +91,7 @@ int queryLCA(int node, int start, int end, int left, int right)
 		return INF;
 
 	// in of range
+
 	if (left <= start && end <= right)
 		return lcaTree[node];
 
@@ -98,7 +100,7 @@ int queryLCA(int node, int start, int end, int left, int right)
 	int rightNode = queryLCA(2 * node + 1, mid + 1, end, left, right);
 	return min(leftNode, rightNode);
 }
-int main() // RTE (stack overflow)
+int main() // RTE (stack overflow or incoreect memory access)
 {
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
@@ -122,10 +124,10 @@ int main() // RTE (stack overflow)
 		//cout << '\n';
 		preorder.clear();
 		getPreorder();
-		//for (int i = 0; i < preorder.size(); i++)
-		//	cout << preorder[i] << " ";
-		//cout << "\n";
-		init(1, 0, preorder.size() - 1);
+		for (int i = 0; i < preorder.size(); i++)
+			cout << preorder[i] << " ";
+		cout << "\n";
+		init(1, 0, 2*n - 2);
 
 		int a, b, idxA, idxB, lca, swap;
 		for (int i = 0; i < q; i++)
@@ -133,8 +135,8 @@ int main() // RTE (stack overflow)
 			cin >> a >> b;
 			// find left index, find right index
 			// query(node, start, end , left, right)
-			idxA = findIndex(1, 0, preorder.size() - 1, a);
-			idxB = findIndex(1, 0, preorder.size() - 1, b);
+			idxA = findIndex(1, 0, 2*n-2, a);
+			idxB = findIndex(1, 0, 2*n-2, b);
 			if (idxA > idxB)
 			{
 				swap = idxA;
@@ -142,7 +144,7 @@ int main() // RTE (stack overflow)
 				idxB = swap;
 			}
 
-			lca = queryLCA(1, 0, preorder.size() - 1, idxA, idxB);
+			lca = queryLCA(1, 0, 2*n - 2, idxA, idxB);
 			//cout << a << " " << b << "    " << idxA << " " << idxB << "   " << lca << "\n";
 			cout << depth[a] + depth[b] - 2 * depth[lca] << "\n";
 		}

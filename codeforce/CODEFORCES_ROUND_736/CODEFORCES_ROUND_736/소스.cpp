@@ -6,11 +6,11 @@ int main()
 {
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
-	//int testCase;
-	//cin >> testCase;
+	int testCase;
+	cin >> testCase;
 
-	//for (; testCase > 0; testCase--)
-	//{
+	for (; testCase > 0; testCase--)
+	{
 		// A
 		//int n;
 		//cin >> n;
@@ -52,85 +52,78 @@ int main()
 		//}
 		//cout << ans << "\n";
 
+	}
+	// don't need testcase
+
 		// C
-		int n, m;
-		cin >> n >> m;
-		vector<int > cntStrong(n + 1, 0);
-		for (int i = 0; i < m; i++)
-		{
-			int a, b;
-			cin >> a >> b;
-			
-			if (a > b)
-				cntStrong[b]++;
-			else
-				cntStrong[a]++;
-
-		}
-
-		// cnt people that will be alive
-		int ans = 0;
-		for (int i = 1; i <= n; i++)
-		{
-			if (cntStrong[i] == 0)
-				ans++;
-		}
-
-		int q;
-		cin >> q;
-		for (int i = 0; i < q; i++)
-		{
-			int type;
-			cin >> type;
-			// add
-			if (type == 1)
-			{
-				int a, b;
-				cin >> a >> b;
-
-				if (a > b)
-				{
-					if (cntStrong[b] == 0)
-						ans--;
-
-					cntStrong[b]++;
-				}
-				else
-				{
-					if (cntStrong[a] == 0)
-						ans--;
-
-					cntStrong[a]++;
-				}
-
-			}
-			// remove
-			else if (type == 2)
-			{
-				int a, b;
-				cin >> a >> b;
-
-				if (a > b)
-				{
-					cntStrong[b]--;
-
-					if (cntStrong[b] == 0)
-						ans++;
-				}
-				else
-				{
-					cntStrong[a]--;
-
-					if (cntStrong[a] == 0)
-						ans++;
-				}
-			}
-			// present ans
-			else if (type == 3)
-			{
-				cout << ans << "\n";
-			}
-		}
+		//int n, m;
+		//cin >> n >> m;
+		//vector<int > cntStrong(n + 1, 0);
+		//for (int i = 0; i < m; i++)
+		//{
+		//	int a, b;
+		//	cin >> a >> b;
+		//	
+		//	if (a > b)
+		//		cntStrong[b]++;
+		//	else
+		//		cntStrong[a]++;
+		//}
+		//// cnt people that will be alive
+		//int ans = 0;
+		//for (int i = 1; i <= n; i++)
+		//{
+		//	if (cntStrong[i] == 0)
+		//		ans++;
+		//}
+		//int q;
+		//cin >> q;
+		//for (int i = 0; i < q; i++)
+		//{
+		//	int type;
+		//	cin >> type;
+		//	// add
+		//	if (type == 1)
+		//	{
+		//		int a, b;
+		//		cin >> a >> b;
+		//		if (a > b)
+		//		{
+		//			if (cntStrong[b] == 0)
+		//				ans--;
+		//			cntStrong[b]++;
+		//		}
+		//		else
+		//		{
+		//			if (cntStrong[a] == 0)
+		//				ans--;
+		//			cntStrong[a]++;
+		//		}
+		//	}
+		//	// remove
+		//	else if (type == 2)
+		//	{
+		//		int a, b;
+		//		cin >> a >> b;
+		//		if (a > b)
+		//		{
+		//			cntStrong[b]--;
+		//			if (cntStrong[b] == 0)
+		//				ans++;
+		//		}
+		//		else
+		//		{
+		//			cntStrong[a]--;
+		//			if (cntStrong[a] == 0)
+		//				ans++;
+		//		}
+		//	}
+		//	// present ans
+		//	else if (type == 3)
+		//	{
+		//		cout << ans << "\n";
+		//	}
+		//}
 
 
 

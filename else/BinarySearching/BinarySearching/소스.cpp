@@ -11,7 +11,7 @@ int main()
 	int n;
 	cin >> n;
 
-	vector<ll> a(n+1);
+	vector<ll> a(n);
 	for (int i = 0; i < n; i++)
 		cin >> a[i];
 

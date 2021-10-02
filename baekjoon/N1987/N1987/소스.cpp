@@ -2,23 +2,30 @@
 
 using namespace std;
 
-
 int r, c;
 vector<vector<char> > grid;
-vector<vector<int> > dist;
-int dfs(int y, int x, vector<bool> visitedA)
+vector<bool> visited;
+int dfs(int y, int x)
 {
-	if (r <= y || y < 0 || c <= x || x < 0|| visitedA[grid[y][x] - 'A'])
+	if (r <= y || y < 0 || c <= x || x < 0|| visited[grid[y][x] - 'A'])
 		return 0;
 
-	visitedA[grid[y][x] - 'A'] = true;
+	visited[grid[y][x] - 'A'] = true;
 	int ret = 0;
 
-	int a = 0;
-	a = max(dfs(y + 1, x, visitedA), dfs(y, x + 1, visitedA));
-	int b = 0;
-	b = max(dfs(y - 1, x, visitedA), dfs(y, x - 1, visitedA));
-	return ret = max(a, b) + 1;
+	int a, b, c, d;
+	a = dfs(y + 1, x);
+	b = dfs(y, x + 1);
+	c = dfs(y - 1, x);
+	d = dfs(y, x - 1);
+
+	ret = max(ret, a);
+	ret = max(ret, b);
+	ret = max(ret, c);
+	ret = max(ret, d);
+
+	visited[grid[y][x] - 'A'] = false;
+	return ret + 1;
 }
 
 int main()
@@ -36,5 +43,8 @@ int main()
 			cin >> grid[i][j];
 		}
 	}
-	cout << dfs(0, 0, vector<bool>(26, false)) << "\n";
+
+	visited = vector<bool>(26);
+	cout << dfs(0, 0) << "\n";
+
 }

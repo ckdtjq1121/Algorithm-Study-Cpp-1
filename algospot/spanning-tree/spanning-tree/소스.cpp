@@ -7,7 +7,7 @@ vector<vector<int> > edge;
 // finished[i] : i가 종료 했으면  1, 아니면 0
 vector<int> discovered, finished;
 int cnt;
-
+bool isthereCycle;
 void dfs(int here)
 {
 	discovered[here] = cnt++;
@@ -24,7 +24,10 @@ void dfs(int here)
 		else if (discovered[here] < discovered[there])
 			cout << "forward E\n";
 		else if (!finished[there]) // there 이 아직 안끝났다
+		{
 			cout << "backward E\n";
+			isthereCycle = true;
+		}
 		else
 			cout << "cross E\n";
 
@@ -51,5 +54,9 @@ int main()
 	discovered = vector<int>(n, -1);
 	finished = vector<int>(n, 0);
 	cnt = 0;
+	isthereCycle = false;
 	dfs(0);
+
+	if (isthereCycle)
+		cout << "is there Cycle \n";
 }

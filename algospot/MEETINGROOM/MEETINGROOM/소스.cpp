@@ -66,12 +66,14 @@ void makeGraph(const vector<pair<int, int> >& meetings)
 	int vars = meetings.size();
 
 	adj.clear();
-	adj.resize(vars * 2);
+	adj.resize(vars * 2); // true, false
 	for (int i = 0; i < vars; i += 2)
 	{
 		// i or j 둘중 하나는 해야한다.
 		int j = i + 1;
+		// i == false, j = true
 		adj[i * 2 + 1].push_back(j * 2);
+		// j = false, i = true
 		adj[j * 2 + 1].push_back(i * 2);
 	}
 
@@ -82,13 +84,16 @@ void makeGraph(const vector<pair<int, int> >& meetings)
 			// i 와 j가 겹칠 경우 둘중 하나만 한다.
 			if (!disjoint(meetings[i], meetings[j]))
 			{
+				// i = true, j = false
 				adj[i * 2].push_back(j * 2 + 1);
+				// j = true, i = false
 				adj[j * 2].push_back(i * 2 + 1);
 			}
 		}
 	}
 }
 
+// SCC와 위상정렬을 왜하는가?
 vector<int> solve2SAT()
 {
 	int n = adj.size() / 2;
@@ -104,7 +109,7 @@ vector<int> solve2SAT()
 
 	vector<int> value(2 * n, -1);
 
-	// scc의 역순 정렬 == 위성 정렬 순서
+	// scc의 역순 정렬 == 위상 정렬 순서
 	vector<pair<int, int> > order;
 	for (int i = 0; i < 2 * n; i++)
 		order.push_back({ -label[i], i });

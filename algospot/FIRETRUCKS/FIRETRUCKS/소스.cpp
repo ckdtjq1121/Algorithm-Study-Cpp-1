@@ -43,7 +43,6 @@ int main()
 		{
 			dist[station[i]] = 0;
 		}
-		// num of station x dijkstra 
 
 		priority_queue<pair<int, int>, vector<pair<int, int> >, greater<pair<int, int> > > pq;
 		for (int i = 0; i < m; i++)

@@ -20,22 +20,8 @@ int main()
 
 		vector<int> b(n);
 		for (int i = 0; i < n; i++)
-		{
 			cin >> b[i];
-		}
 
 
-		int ans = INT_MAX;
-		for (int i = 0; i < n; i++)
-		{
-			for (int j = 0; j < n; j++)
-			{
-				if (b[i] > a[j])
-					ans = min(ans, i + j);
-			}
-		}
-
-		cout << ans << "\n";
-		
 	}
 }

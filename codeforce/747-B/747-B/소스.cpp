@@ -2,8 +2,29 @@
 
 using namespace std;
 
-typedef long long ll;
-const ll MOD = 1000000007;
+#define X first
+#define Y second
+#define int int64_t
+#define sz(v) (int)(v).size()
+#define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+#define compress(v) sort(all(v)), (v).erase(unique(all(v)), (v).end())
+#define OOB(x, y) ((x) < 0 || (x) >= n || (y) < 0 || (y) >= m)
+#define debug(x) cout << (#x) << ": " << (x) << '\n'
+
+using ll = long long;
+using ull = unsigned long long;
+using pii = pair<int, int>;
+using tii = tuple<int, int, int>;
+
+using vi = vector<int>;
+using vp = vector<pii>;
+using vvi = vector<vi>;
+using vvp = vector<vp>;
+
+const int MOD = 1e9 + 7;
+const int INF = 1e9 + 7;
+const ll LNF = 1e18 + 7;
 
 int main()
 {
@@ -14,28 +35,16 @@ int main()
 
 	for (; testCase > 0; testCase--)
 	{
-		ll n, k;
+		int n, k;
 		cin >> n >> k;
 
-		ll ans = 0;
-		vector<ll> power;
-		power.push_back(1);
-		int i = 1;
-		while ((1ll << i) <= k)
+		int ans = 0;
+		for (int t = 1; k; k >>= 1)
 		{
-			ll tmp = power.back() * n % MOD;
-			power.push_back(tmp);
-			i++;	
-		}
+			if (k & 1)
+				ans = (ans + t) % MOD;
 
-		i = 0;
-		while ((1ll << i) <= k)
-		{
-			if ((k & (1ll << i)))
-				ans = (ans + power[i]) % MOD;
-
-			i++;
-			//cout << ans << " ";
+			t = (t * n) % MOD;
 		}
 
 		cout << ans << "\n";

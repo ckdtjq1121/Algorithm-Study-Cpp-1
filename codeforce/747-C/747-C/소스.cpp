@@ -1,9 +1,46 @@
-#include<bits/stdc++.h>
-
+#pragma GCC optimize ("O3")
+#include <bits/stdc++.h>
+#define fastio cin.tie(0)->sync_with_stdio(0)
 using namespace std;
 
-int main()
-{
+#define X first
+#define Y second
+#define int int64_t
+#define sz(v) (int)(v).size()
+#define all(v) (v).begin(), (v).end()
+#define rall(v) (v).rbegin(), (v).rend()
+#define compress(v) sort(all(v)), (v).erase(unique(all(v)), (v).end())
+#define OOB(x, y) ((x) < 0 || (x) >= n || (y) < 0 || (y) >= m)
+#define debug(x) cout << (#x) << ": " << (x) << '\n'
+
+using ll = long long;
+using ull = unsigned long long;
+using pii = pair<int, int>;
+using tii = tuple<int, int, int>;
+
+using vi = vector<int>;
+using vp = vector<pii>;
+using vvi = vector<vi>;
+using vvp = vector<vp>;
+
+const int MOD = 1e9 + 7;
+const int INF = 1e9 + 7;
+const ll LNF = 1e18 + 7;
+
+template<typename T> T _read() { T i; cin >> i; return i; }
+template<typename...T> tuple<T...> _reads() { return { _read<T>()... }; }
+template<typename T, size_t...I> void _write(const T& i, index_sequence<I...>) { (..., (cout << (I ? " " : "") << get<I>(i))); }
+template<typename...T> void _writes(tuple<T...> i) { _write(i, make_index_sequence<sizeof...(T)>()); }
+template<typename T> T max(vector<T> v) { return *max_element(all(v)); }
+template<typename T> T min(vector<T> v) { return *min_element(all(v)); }
+template<typename T> istream& operator>> (istream& in, vector<T>& i) { for (auto& i : i) in >> i; return in; }
+template<typename T, typename U> istream& operator>> (istream& in, pair<T, U>& i) { in >> i.X >> i.Y; return in; }
+template<typename...T> istream& operator>> (istream& in, tuple<T...>& i) { i = _reads<T...>(); return in; }
+template<typename T> ostream& operator<< (ostream& out, vector<T> i) { for (auto& i : i) out << i << ' '; return out; }
+template<typename T, typename U> ostream& operator<< (ostream& out, pair<T, U> i) { out << i.X << ' ' << i.Y; return out; }
+template<typename...T> ostream& operator<< (ostream& out, tuple<T...> i) { _writes(i); return out; }
+
+int32_t main() {
 	ios_base::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 
 	int testCase;
@@ -11,65 +48,34 @@ int main()
 
 	for (; testCase > 0; testCase--)
 	{
-		int n;
-		char c;
+		int n; char c;
 		cin >> n >> c;
 
 		string s;
 		cin >> s;
 
-		bool flag = false;
-		for (int i = 0; i < n; i++)
-		{
-			if (s[i] != c)
-			{
-				flag = true;
-				break;
-			}
-		}
-
-		if (!flag)
-		{
-			cout << 0 << "\n";
-		}
+		vector<int> ans;
+		if (s == string(n, c));
+		else if (s.back() == c)
+			ans.push_back(n);
 		else
 		{
-			if (n % 2 == 1)
+			for (int i = n; i > n / 2; i--)
 			{
-				flag = false;
-				for (int i = n - 1; i >= (n - 1) / 2; i--)
+				if (s[i - 1] == c)
 				{
-					//cout << s[i] << " " << c << "\n";
-					if (s[i] == c)
-					{
-						cout << 1 << "\n";
-						cout << i + 1 << "\n";
-						flag = true;
-						break;
-					}
-				}
-			}
-			else
-			{
-				flag = false;
-				for (int i = n - 1; i > (n - 1) / 2; i--)
-				{
-					//cout << s[i] << " " << c << "\n";
-					if (s[i] == c)
-					{
-						cout << 1 << "\n";
-						cout << i + 1 << "\n";
-						flag = true;
-						break;
-					}
+					ans.push_back(i);
+					break;
 				}
 			}
 
-			if (flag)
-				continue;
-
-			cout << 2 << "\n";
-			cout << n - 1 << " " << n << "\n";
+			if (ans.empty())
+			{
+				ans.push_back(n - 1); ans.push_back(n);
+			}
 		}
+
+		cout << sz(ans) << "\n";
+		cout << ans << "\n";
 	}
 }

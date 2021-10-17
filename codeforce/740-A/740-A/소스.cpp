@@ -57,27 +57,17 @@ int32_t main()
 	{
 		int n;
 		cin >> n;
-		vi a(n+1);
-		for (int i = 1; i <= n; i++)
+		vi a(n);
+		for (int i = 0; i < n; i++)
 			cin >> a[i];
 
-		vi sorted(n + 1);
-		sorted = a;
-		sort(all(sorted));
-
-		int i;
-		for (i = 1; i <= n; i++)
+		int ans = 0;
+		while (!is_sorted(all(a)))
 		{
-			if (a == sorted)
-				break;
-
-			int j = 1;
-			if (i % 2 == 0)
-				j++;
-			for (; j + 1<= n; j += 2)	
-				if (a[j] > a[j + 1])
-					swap(a[j], a[j + 1]);		
+			for (int i = ans % 2; i + 1 <= n; i += 2)
+				if (a[i] > a[i + 1])
+					swap(a[i], a[i + 1]);
 		}
-		cout << i - 1 << "\n";
+		cout << ans << "\n";
 	}
 }

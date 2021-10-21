@@ -50,31 +50,9 @@ int32_t main()
 
 	while (testCase--)
 	{
-		vi arr(3);
-		for (int i = 0; i < 3; i++)
-			cin >> arr[i];
+		int a, b, c;
+		cin >> a >> b >> c;
 
-		int mx = max(arr);
-		int cmx = count(arr.begin(), arr.end(), mx);
-
-		if (cmx == 1)
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				if (arr[i] == mx)
-					cout << 0 << " ";
-				else
-					cout << mx - arr[i] + 1 << " ";
-			}
-		}
-		else
-		{
-			for (int i = 0; i < 3; i++)
-			{
-				cout << mx - arr[i] + 1 << " ";
-			}
-		}
-
-		cout << "\n";
+		cout << max(max(b, c) - a + 1, 0ll) << " " << max(max(a, c) - b + 1, 0ll) << " " << max(max(a, b) - c + 1, 0ll) << "\n";
 	}
 }

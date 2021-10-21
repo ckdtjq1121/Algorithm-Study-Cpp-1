@@ -50,84 +50,29 @@ int32_t main()
 
 	while (testCase--)
 	{
-		int n;
-		cin >> n;
+		vector<string> vs = { "00", "25", "50", "75" };
+		string s;
+		cin >> s;
 
-		if (n % 25 == 0)
+		int ans = INT_MAX;
+		for (int i = 0; i < 4; i++)
 		{
-			cout << 0 << "\n";
-			continue;
-		}
-		int nx = n;
-		int ans = 0;
-		int tmp; 
-		while (n % 25 != 0)
-		{
-			if (n / 10 % 25 == 0)
+			string p = vs[i];
+			int cur = 1;
+			int k = 0;
+			for (int j = s.size() - 1; j >= 0; j--)
 			{
-				ans++;
-				break;
-			}
-			//cout << n << " ";
-			if (n % 10 == 5)
-			{
-				if (n % 25 == 0)
-					break;
-				else
+				if (p[cur] == s[j])
+					cur--;
+
+				if (cur == -1)
 				{
-					tmp = n % 10;
-					n /= 100;
-					n *= 10;
-					n += tmp;
-
-					//cout << n << " ";
-					ans++;
+					k = j;
+					break;
 				}
 			}
-			else
-			{
-				n /= 10;
-				ans++;
-			}
+			ans = min(ans, (int)s.size() - k - 2);
 		}
-		int ttmp = 0;
-		n = nx;
-		while (n % 25 != 0)
-		{
-			if (n == 0)
-				ttmp = INT_MAX;
-
-			if (n / 10 % 25 == 0)
-			{
-				ttmp++;
-				break;
-			}
-			//cout << n << " ";
-			if (n % 10 == 0)
-			{
-				if (n % 25 == 0)
-					break;
-				else
-				{
-					tmp = n % 10;
-					n /= 100;
-					n *= 10;
-					n += tmp;
-
-					//cout << n << " ";
-					ttmp++;
-				}
-			}
-			else
-			{
-				n /= 10;
-				ttmp++;
-			}
-
-			
-		}
-
-		//cout << ans << " " << ttmp << " ";
-		cout << min(ans, ttmp) << "\n";
+		cout << ans << "\n";
 	}
 }
